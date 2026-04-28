@@ -113,8 +113,8 @@ The project is designed to be integrated with a Power BI dashboard featuring:
 
 ## 👤 Author
 
-**Tam Man**
-Aspiring Data Analyst | SQL | Business Intelligence
+**Tanmay Mandal**
+Data Analyst | SQL | Business Intelligence
 
 ---
 
