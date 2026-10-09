@@ -461,7 +461,10 @@ function compute() {
 
   // players (Q8, Q9) ---------------------------------------------------------
   // league baseline: every player in the season + ground slice (all teams)
-  const minBalls = 100 * seasons.length;
+  // 100 balls per season (300 for the default 2022-24 window, as in ref_window),
+  // capped so a single team or ground still produces a shortlist
+  const cap = state.ground >= 0 ? (team >= 0 ? 60 : 120) : team >= 0 ? 300 : 500;
+  const minBalls = Math.min(100 * seasons.length, cap);
   const bat = new Map(), bowl = new Map();
   let lgRuns = 0, lgBalls = 0, lgRc = 0, lgBb = 0;
   for (let r = 0; r < NP; r++) {
