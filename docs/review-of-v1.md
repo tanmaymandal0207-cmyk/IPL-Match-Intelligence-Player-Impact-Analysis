@@ -52,4 +52,4 @@
 - The `batsman_stats` view (created, never used).
 - The phase-weighted bowling query: joined deliveries back to a view only to recover the phase, and was never aggregated to bowler level. Death-over bowling is now a column in `v_bowler_impact`.
 - The MIT licence. The repository is all rights reserved.
-- Power BI dashboard references (no dashboard was included).
+- Power BI dashboard references (no dashboard was included). v2 has its own HTML dashboard in `dashboard/`.
