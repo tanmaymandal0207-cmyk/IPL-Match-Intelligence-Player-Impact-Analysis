@@ -1,0 +1,9 @@
+innings_role,start_type,innings,win_pct
+Batting first,1. Strong start,323,57.6
+Batting first,"2. Aggressive, risky",88,52.3
+Batting first,"3. Slow, stable",318,48.4
+Batting first,4. Weak start,347,30.5
+Chasing,1. Strong start,321,74.5
+Chasing,"2. Aggressive, risky",140,40.7
+Chasing,"3. Slow, stable",258,64.7
+Chasing,4. Weak start,357,33.9

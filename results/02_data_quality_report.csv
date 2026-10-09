@@ -1,0 +1,17 @@
+check_name,found,treatment
+Matches loaded,1095,"expected 1,095"
+Deliveries loaded,260920,"expected 260,920"
+Deliveries with no matching match,0,must be 0
+Matches with no deliveries,0,must be 0
+No-result matches,5,excluded from every win-rate
+Tied matches (decided by super over),14,excluded: not decided by the two innings
+Super-over deliveries (inning 3+),161,excluded from all innings and player figures
+D/L (rain-adjusted) matches,21,kept for results; excluded from venue chase rates
+Raw team names,19,mapped to franchises in ref_team
+Raw venue names,58,mapped to grounds in ref_venue
+Matches with city missing,51,city taken from ref_venue
+Target ≠ first-innings total + 1,0,reconciliation; must be 0
+Overs with 7 legal balls,29,"umpire miscounts, kept as bowled"
+Wides + no-balls (not legal balls),9449,excluded from balls faced / bowled
+Byes + leg-byes (not charged to bowler),4674,excluded from bowler runs
+Dismissals not credited to the bowler,1135,"run out, retired, obstructing"

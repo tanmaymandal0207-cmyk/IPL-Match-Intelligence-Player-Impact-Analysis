@@ -1,0 +1,5 @@
+innings_role,result,innings,avg_runs,avg_wickets,avg_run_rate,avg_pp_runs,avg_middle_runs,avg_death_runs
+Batting first,Won,492,180.6,5.5,9.08,49.4,76.3,54.9
+Batting first,Lost,584,153.3,6.6,7.75,43.5,64.5,45.3
+Chasing,Won,584,154.4,3.8,8.76,50.5,69.9,34.0
+Chasing,Lost,492,149.8,8.0,7.71,45.1,66.3,38.5

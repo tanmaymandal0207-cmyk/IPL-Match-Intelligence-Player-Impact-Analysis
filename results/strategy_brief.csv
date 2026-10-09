@@ -1,0 +1,8 @@
+seq,area,finding,recommendation
+1,Batting target,Par first-innings score in 2024 is 190; 37% of totals reached 200,Plan for 200: par has risen 18 runs since 2022
+2,Powerplay,Teams scoring 60+ in overs 1-6 win 70% vs 39% when under 40,Pick openers on powerplay strike rate; 60 is the target
+3,Death overs,Batting first with 7+ wickets in hand at 15 overs wins 57% vs 17% with 4 or fewer,Protect wickets through the middle; death-over runs depend on them
+4,Toss,"Last 3 seasons: toss winner wins 46%, chasing side wins 49%","The toss is close to a coin flip; decide by ground, not habit"
+5,Venue,Best chasing ground: Sawai Mansingh Stadium (66%); best for batting first: MA Chidambaram Stadium (57%),Use the ground table (06 Q7) for the toss call
+6,Batting shortlist,"Shubman Gill (37.9), DP Conway (37.1), SA Yadav (34.9), RM Patidar (34.7), PD Salt (34.1)","Top 5 by batting impact, current window"
+7,Bowling shortlist,"M Pathirana (6.13), JR Hazlewood (5.48), JJ Bumrah (5.47), Mohammed Shami (5.47), PWH de Silva (5.05)","Top 5 by bowling impact, current window"
