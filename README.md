@@ -8,10 +8,12 @@
 <img alt="Views" src="https://img.shields.io/badge/Views-6-CFE3C4?labelColor=24361F">
 <img alt="Seasons" src="https://img.shields.io/badge/Seasons-2008%E2%80%932024-E9DDBF?labelColor=24361F">
 <img alt="Type" src="https://img.shields.io/badge/Type-practice%20project-E88A7A?labelColor=24361F">
+<a href="https://tanmaymandal0207-cmyk.github.io/IPL-Match-Intelligence-Player-Impact-Analysis/dashboard/"><img alt="Live dashboard" src="https://img.shields.io/badge/Dashboard-live-7FB07A?labelColor=24361F"></a>
 </p>
 
 <p align="center">
 <a href="#strategy-brief">Strategy brief</a> ·
+<a href="#dashboard">Dashboard</a> ·
 <a href="#pipeline">Pipeline</a> ·
 <a href="#findings">Findings</a> ·
 <a href="#data-model">Data model</a> ·
@@ -46,6 +48,23 @@ The output of [`08_strategy_brief.sql`](sql/08_strategy_brief.sql). It is one re
 | Venue | Best chasing ground: Sawai Mansingh Stadium (66%); best for batting first: MA Chidambaram Stadium (57%) | Use the ground table for the toss call |
 | Batting shortlist | Shubman Gill, DP Conway, SA Yadav, RM Patidar, PD Salt | Top 5 by batting impact, 2022–2024 |
 | Bowling shortlist | M Pathirana, JR Hazlewood, JJ Bumrah, Mohammed Shami, PWH de Silva | Top 5 by bowling impact, 2022–2024 |
+
+---
+
+## Dashboard
+
+**Live: [IPL Match Intelligence dashboard](https://tanmaymandal0207-cmyk.github.io/IPL-Match-Intelligence-Player-Impact-Analysis/dashboard/)**
+
+[![Dashboard](images/dashboard.png)](https://tanmaymandal0207-cmyk.github.io/IPL-Match-Intelligence-Player-Impact-Analysis/dashboard/)
+
+An interactive view of the same analysis, in one self-contained HTML page (no chart library, no external requests).
+
+- **Filters:** a season-range slider with presets (all, last 3, Impact Player era, before it), a team filter and a ground filter. Every tile, chart and table recalculates for the selection, and the selection is kept in the URL so a filtered view can be shared.
+- **Drill-down:** click a franchise or a ground to filter to it; click again to clear.
+- **Charts:** par first-innings score by season, win % by powerplay runs, winners vs losers by phase, wickets in hand after 15 overs, chase-friendly grounds, franchise win %, toss and chase by season, and the batting and bowling shortlists for the selected window.
+- **Readable without colour:** tooltips on every mark, keyboard focus, a table view on every chart, and light and dark themes (palette checked for colour-blind separation).
+
+The page is built from the views by [`dashboard/build_dashboard.py`](dashboard/build_dashboard.py). The calculations repeat the SQL rules; at the default filters every number shown matches the SQL results for Q1–Q4 and Q6–Q9 (checked with a script before publishing).
 
 ---
 
@@ -142,6 +161,7 @@ Definitions and business rules: [`docs/data-dictionary.md`](docs/data-dictionary
    ```
    Or run the scripts one by one in MySQL Workbench.
 4. **Change the player window:** edit the single row in `ref_window` (seasons, minimum balls) and re-run `07` and `08`.
+5. **Rebuild the dashboard** (optional): `python dashboard/build_dashboard.py` reads the views and writes `dashboard/index.html`. Pass MySQL options with `MYSQL_ARGS`, for example `MYSQL_ARGS="-u root -p"`.
 
 ---
 
@@ -180,13 +200,17 @@ Details: [`docs/review-of-v1.md`](docs/review-of-v1.md)
 │   ├── 07_player_impact.sql
 │   ├── 08_strategy_brief.sql
 │   └── run_all.sql
+├── dashboard/
+│   ├── index.html            # the interactive dashboard (self-contained)
+│   ├── build_dashboard.py    # exports the views and builds index.html
+│   └── src/                  # page template and chart code
 ├── results/          # CSV output of every query
 ├── docs/
 │   ├── findings.md
 │   ├── data-dictionary.md
 │   └── review-of-v1.md
 ├── data/README.md    # where to get the data (not committed)
-└── images/banner.svg
+└── images/           # banner and dashboard screenshot
 ```
 
 ---
