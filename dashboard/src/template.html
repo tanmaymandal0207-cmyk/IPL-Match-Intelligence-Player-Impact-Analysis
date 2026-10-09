@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IPL Match Intelligence · Dashboard</title>
+<meta name="description" content="Interactive dashboard for the IPL Match Intelligence SQL project: what wins IPL matches, 2008–2024.">
+<style>
+/* ---------- tokens ---------------------------------------------------- */
+:root {
+  color-scheme: light;
+  --page:            #f5f3ec;
+  --surface-1:       #fcfbf7;
+  --surface-2:       #f1efe7;
+  --text-primary:    #0b0b0b;
+  --text-secondary:  #52514e;
+  --text-muted:      #6f6d67;
+  --axis-text:       #898781;
+  --grid:            #e1e0d9;
+  --baseline:        #c3c2b7;
+  --border:          rgba(11,11,11,0.10);
+  --deemph:          #c9c7bd;
+  --deemph-line:     #a9a79e;
+  --series-1:        #2a78d6;   /* batting first · single series */
+  --series-2:        #eb6834;   /* chasing */
+  --series-3:        #1baf7a;   /* toss winner */
+  --accent-strip:    #7FB07A;   /* repo brand (banner) - chrome only */
+  --brand-ink:       #24361F;
+  --chip-on:         #24361F;
+  --chip-on-text:    #f7faf3;
+  --focus:           #2a78d6;
+  --tip-bg:          #0b0b0b;
+  --tip-text:        #ffffff;
+  --tip-muted:       #c3c2b7;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page:           #0d0d0d;
+    --surface-1:      #1a1a19;
+    --surface-2:      #232321;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #a3a199;
+    --axis-text:      #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --deemph:         #4a4945;
+    --deemph-line:    #6d6b65;
+    --series-1:       #3987e5;
+    --series-2:       #d95926;
+    --series-3:       #199e70;
+    --accent-strip:   #7FB07A;
+    --brand-ink:      #CFE3C4;
+    --chip-on:        #CFE3C4;
+    --chip-on-text:   #1a1a19;
+    --focus:          #3987e5;
+    --tip-bg:         #f4f3ee;
+    --tip-text:       #0b0b0b;
+    --tip-muted:      #52514e;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page:           #0d0d0d;
+  --surface-1:      #1a1a19;
+  --surface-2:      #232321;
+  --text-primary:   #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted:     #a3a199;
+  --axis-text:      #898781;
+  --grid:           #2c2c2a;
+  --baseline:       #383835;
+  --border:         rgba(255,255,255,0.10);
+  --deemph:         #4a4945;
+  --deemph-line:    #6d6b65;
+  --series-1:       #3987e5;
+  --series-2:       #d95926;
+  --series-3:       #199e70;
+  --accent-strip:   #7FB07A;
+  --brand-ink:      #CFE3C4;
+  --chip-on:        #CFE3C4;
+  --chip-on-text:   #1a1a19;
+  --focus:          #3987e5;
+  --tip-bg:         #f4f3ee;
+  --tip-text:       #0b0b0b;
+  --tip-muted:      #52514e;
+}
+
+/* ---------- base ------------------------------------------------------ */
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--page);
+  color: var(--text-primary);
+  font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+button, select, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 24px 24px 48px; }
+
+/* ---------- header ---------------------------------------------------- */
+.top {
+  position: relative; overflow: hidden;
+  background: var(--surface-1); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 24px 22px 34px; display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; flex-wrap: wrap;
+}
+.top::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: var(--accent-strip); }
+.eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+h1 { margin: 4px 0 4px; font-size: 28px; line-height: 1.15; color: var(--brand-ink); }
+.lede { margin: 0; color: var(--text-secondary); max-width: 720px; }
+.top-actions { display: flex; gap: 8px; align-items: center; }
+.btn {
+  background: var(--surface-1); border: 1px solid var(--border); border-radius: 999px;
+  padding: 6px 12px; cursor: pointer; text-decoration: none; white-space: nowrap; font-size: 13px;
+}
+.btn:hover { background: var(--surface-2); }
+
+/* ---------- filters --------------------------------------------------- */
+.filters {
+  margin-top: 16px; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: flex-end;
+  background: var(--surface-1); border: 1px solid var(--border); border-radius: 16px; padding: 14px 18px;
+  position: sticky; top: 8px; z-index: 5;
+}
+.f-group { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.f-label { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+.f-label output { color: var(--text-primary); font-weight: 700; margin-left: 4px; font-variant-numeric: tabular-nums; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip {
+  border: 1px solid var(--border); background: transparent; border-radius: 999px; padding: 4px 10px; font-size: 12.5px; cursor: pointer;
+}
+.chip:hover { background: var(--surface-2); }
+.chip.reset { border-style: dashed; color: var(--text-secondary); }
+.chip[aria-pressed="true"] { background: var(--chip-on); color: var(--chip-on-text); border-color: transparent; font-weight: 600; }
+.chip[aria-pressed="true"]::before { content: "✓ "; font-weight: 700; }
+.range { position: relative; width: 210px; height: 28px; }
+.range .track { position: absolute; left: 8px; right: 8px; top: 12px; height: 4px; border-radius: 2px; background: var(--grid); }
+.range .fill { position: absolute; top: 12px; height: 4px; border-radius: 2px; background: var(--series-1); }
+.range input[type=range] {
+  position: absolute; left: 0; top: 0; width: 100%; height: 28px; margin: 0; background: none; pointer-events: none;
+  -webkit-appearance: none; appearance: none;
+}
+.range input[type=range]::-webkit-slider-runnable-track { background: none; height: 28px; }
+.range input[type=range]::-moz-range-track { background: none; }
+.range input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; pointer-events: auto; width: 16px; height: 16px; margin-top: 6px; border-radius: 50%;
+  background: var(--surface-1); border: 2px solid var(--series-1); cursor: grab;
+}
+.range input[type=range]::-moz-range-thumb {
+  pointer-events: auto; width: 12px; height: 12px; border-radius: 50%; background: var(--surface-1); border: 2px solid var(--series-1); cursor: grab;
+}
+select {
+  background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px; padding: 6px 28px 6px 10px; min-width: 170px; max-width: 230px;
+}
+.scope { margin: 10px 4px 0; color: var(--text-secondary); font-size: 13px; }
+.scope strong { color: var(--text-primary); }
+
+/* ---------- KPI tiles ------------------------------------------------- */
+.kpis { margin-top: 16px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; min-width: 0; }
+.tile .label { font-size: 12.5px; color: var(--text-secondary); }
+.tile .value { font-size: 30px; font-weight: 650; line-height: 1.15; margin-top: 4px; }
+.tile .value small { font-size: 15px; font-weight: 600; color: var(--text-secondary); margin-left: 2px; }
+.tile .note { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+/* ---------- cards ----------------------------------------------------- */
+.grid { margin-top: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px 14px; min-width: 0; transition: opacity .15s; }
+.card.wide { grid-column: 1 / -1; }
+.card-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.card h2 { margin: 0; font-size: 15.5px; line-height: 1.3; }
+.card .sub { margin: 3px 0 0; font-size: 12.5px; color: var(--text-secondary); }
+.view-toggle { flex: none; font-size: 12px; padding: 4px 10px; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 10px 0 2px; font-size: 12.5px; color: var(--text-secondary); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.key-rect { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.key-line { width: 14px; height: 2px; border-radius: 1px; display: inline-block; }
+.chart { margin-top: 6px; position: relative; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.takeaway { margin: 8px 0 0; font-size: 12.5px; color: var(--text-secondary); }
+.takeaway strong { color: var(--text-primary); }
+.empty { padding: 40px 0; text-align: center; color: var(--text-muted); }
+
+/* svg text */
+.ax { fill: var(--axis-text); font-size: 11px; font-variant-numeric: tabular-nums; }
+.ax-cat { fill: var(--text-secondary); font-size: 11.5px; }
+.lbl { fill: var(--text-primary); font-size: 11.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.lbl-2 { fill: var(--text-secondary); font-size: 11px; }
+.facet { fill: var(--text-primary); font-size: 12px; font-weight: 650; }
+.chart svg text { pointer-events: none; }
+.mark { pointer-events: none; transition: opacity .12s; }   /* the larger .hit rect behind it takes the pointer */
+.hit { fill: transparent; cursor: pointer; }
+.hit:focus { outline: none; }
+.hit:focus + .mark, .hit:hover + .mark { opacity: .72; }
+.hit:focus-visible { outline: none; stroke: var(--focus); stroke-width: 2; }
+
+/* tables */
+.tbl-wrap { overflow-x: auto; margin-top: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+th, td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+th { color: var(--text-muted); font-weight: 600; font-size: 11.5px; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr.sel td { background: var(--surface-2); font-weight: 600; }
+.imp { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+.imp-bar { height: 8px; border-radius: 0 4px 4px 0; background: var(--series-1); }
+.imp-track { width: 90px; display: flex; }
+
+/* tooltip */
+#tip {
+  position: fixed; z-index: 50; pointer-events: none; opacity: 0; transition: opacity .08s;
+  background: var(--tip-bg); color: var(--tip-text); border-radius: 8px; padding: 8px 10px; font-size: 12px; min-width: 120px; max-width: 260px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.18);
+}
+#tip.on { opacity: 1; }
+#tip .t-title { color: var(--tip-muted); font-size: 11.5px; margin-bottom: 4px; }
+#tip .t-row { display: flex; align-items: center; gap: 8px; line-height: 1.5; }
+#tip .t-row b { font-weight: 700; font-variant-numeric: tabular-nums; }
+#tip .t-row i { font-style: normal; color: var(--tip-muted); }
+#tip .t-key { width: 12px; height: 2px; border-radius: 1px; flex: none; }
+#tip .t-note { color: var(--tip-muted); font-size: 11px; margin-top: 4px; }
+
+footer { margin-top: 20px; color: var(--text-muted); font-size: 12.5px; }
+footer p { margin: 4px 0; }
+
+@media (max-width: 1080px) { .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 860px)  { .grid { grid-template-columns: minmax(0, 1fr); } .filters { position: static; } }
+@media (max-width: 560px)  {
+  .wrap { padding: 16px 16px 40px; } .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  h1 { font-size: 23px; } .range { width: 100%; } select { min-width: 0; width: 100%; max-width: none; } .f-group { width: 100%; }
+}
+@media print { .filters { position: static; } .view-toggle, .top-actions { display: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <div class="eyebrow">MySQL 8 · ball-by-ball · 2008–2024</div>
+      <h1>IPL Match Intelligence</h1>
+      <p class="lede">What wins IPL matches, and which players deliver in wins. Every chart recalculates from match, innings and player data aggregated by the project's SQL views.</p>
+    </div>
+    <div class="top-actions">
+      <button class="btn" id="themeBtn" type="button" aria-label="Switch colour theme">Theme: auto</button>
+      <a class="btn" href="https://github.com/tanmaymandal0207-cmyk/IPL-Match-Intelligence-Player-Impact-Analysis">SQL on GitHub ↗</a>
+    </div>
+  </header>
+
+  <section class="filters" aria-label="Filters">
+    <div class="f-group">
+      <span class="f-label" id="seasonLbl">Seasons <output id="seasonOut">2008 – 2024</output></span>
+      <div class="range" role="group" aria-labelledby="seasonLbl">
+        <div class="track"></div><div class="fill" id="rangeFill"></div>
+        <input type="range" id="fromR" min="2008" max="2024" step="1" value="2008" aria-label="First season">
+        <input type="range" id="toR" min="2008" max="2024" step="1" value="2024" aria-label="Last season">
+      </div>
+    </div>
+    <div class="f-group">
+      <span class="f-label">Presets</span>
+      <div class="chips" id="presets">
+        <button class="chip" type="button" data-from="2008" data-to="2024" title="2008–2024">All</button>
+        <button class="chip" type="button" data-from="2022" data-to="2024" title="2022–2024">Last 3</button>
+        <button class="chip" type="button" data-from="2023" data-to="2024" title="2023–2024: Impact Player rule">Impact era</button>
+        <button class="chip" type="button" data-from="2008" data-to="2022" title="2008–2022">Pre-Impact</button>
+        <button class="chip reset" type="button" id="resetBtn">Reset</button>
+      </div>
+    </div>
+    <div class="f-group">
+      <label class="f-label" for="teamSel">Team</label>
+      <select id="teamSel"></select>
+    </div>
+    <div class="f-group">
+      <label class="f-label" for="groundSel">Ground</label>
+      <select id="groundSel"></select>
+    </div>
+  </section>
+  <p class="scope" id="scope" aria-live="polite"></p>
+
+  <section class="kpis" id="kpis" aria-label="Headline numbers"></section>
+
+  <main class="grid" id="grid"></main>
+
+  <footer>
+    <p><strong>Data:</strong> IPL Complete Dataset 2008–2024 (Kaggle, patrickb1912): 1,095 matches, 260,920 deliveries. Team and ground names standardised with <code>ref_team</code> and <code>ref_venue</code>; super overs excluded.</p>
+    <p><strong>Rules:</strong> win rates use decided matches only (no ties or washouts). Phases: powerplay overs 1–6, middle 7–15, death 16–20. Bowler runs exclude byes and leg-byes. Player impact uses the formulas in <code>sql/07_player_impact.sql</code>.</p>
+    <p>Built from <code>v_match</code>, <code>v_team_innings</code> and <code>v_player_match</code> by <code>dashboard/build_dashboard.py</code>. © Tanmay Mandal. All rights reserved.</p>
+  </footer>
+</div>
+<div id="tip" role="tooltip" aria-hidden="true"></div>
+
+<script>
+const DATA = /*__DATA__*/null;
+</script>
+<script>
+/*__APP__*/
+</script>
+</body>
+</html>
