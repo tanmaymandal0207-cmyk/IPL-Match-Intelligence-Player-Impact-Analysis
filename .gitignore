@@ -1,0 +1,15 @@
+# Kaggle source data is not stored in this repo (see data/README.md)
+data/*.csv
+*.zip
+
+# Python (dashboard/build_dashboard.py)
+__pycache__/
+*.pyc
+.venv/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
