@@ -1,0 +1,13 @@
+# Images are binary
+*.png  binary
+
+# SQL, Python, docs and dashboard source use LF line endings
+*.sql  text eol=lf
+*.py   text eol=lf
+*.md   text eol=lf
+*.html text eol=lf
+*.js   text eol=lf
+*.svg  text eol=lf
+
+# Query exports in results/ keep the line endings they were saved with
+*.csv  -text
