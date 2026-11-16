@@ -26,6 +26,7 @@ Rebuild of the v1 single script into a reproducible SQL pipeline with an interac
 - 18 Oct 2026: `.gitattributes` (LF for SQL / Python / docs, PNG binary, CSV exports left as saved).
 - 9 Nov 2026: `.gitattributes` sets the repo language to SQL.
 - 15 Nov 2026: added this changelog.
+- 16 Nov 2026: README links the changelog and related projects; repository tree lists `CHANGELOG.md`.
 
 ## v1.0 — 28 Apr 2026
 

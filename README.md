@@ -189,6 +189,7 @@ Details: [`docs/review-of-v1.md`](docs/review-of-v1.md)
 
 ```
 ├── README.md
+├── CHANGELOG.md      # release and maintenance history
 ├── sql/
 │   ├── 00_create_schema.sql
 │   ├── 01_load_data.sql
@@ -212,6 +213,18 @@ Details: [`docs/review-of-v1.md`](docs/review-of-v1.md)
 ├── data/README.md    # where to get the data (not committed)
 └── images/           # banner and dashboard screenshot
 ```
+
+---
+
+## Changelog
+
+Release notes are in [CHANGELOG.md](CHANGELOG.md) (current release: v2.0, 9 Oct 2026).
+
+## Related projects
+
+- [SQL Business Problems](https://github.com/tanmaymandal0207-cmyk/sql-business-problems): problem → SQL → validation case studies
+- [Zomato Bangalore Analysis](https://github.com/tanmaymandal0207-cmyk/zomato-bangalore-sql-analysis): BigQuery profiling and restaurant-grain reconciliation
+- [Superstore Sales Analysis](https://github.com/tanmaymandal0207-cmyk/superstore-sales-analysis-sql-powerbi): MySQL cleaning pipeline modelled in Power BI
 
 ---
 
