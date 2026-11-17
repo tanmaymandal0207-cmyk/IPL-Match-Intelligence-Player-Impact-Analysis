@@ -47,11 +47,13 @@
 ### `v_player_match` (one row per player × match × role)
 
 **Batting (`role = 'bat'`):**
+
 - `runs`, `balls` (faced), `fours`, `sixes`
 - `dismissed`: credited to the dismissed player, who may be the non-striker in a run-out
 - `death_runs`, `death_balls`
 
 **Bowling (`role = 'bowl'`):**
+
 - `balls` (legal), `runs_conceded`, `wickets`, `dot_balls`
 - `death_runs`, `death_balls`
 

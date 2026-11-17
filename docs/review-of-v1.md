@@ -3,6 +3,7 @@
 **v1:** one script, `sql/ipl_analysis.sql`, written for the 2008–2019 IPL dataset.
 
 **How it was reviewed:**
+
 - The data was loaded into the v1 column layout (`Matches`, `deliveries`, 1-based `overs`).
 - The script was run unchanged on MySQL 8.0.
 - Each query was then checked against cricket scoring rules.

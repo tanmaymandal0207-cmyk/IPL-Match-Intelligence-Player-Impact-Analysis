@@ -78,6 +78,7 @@ All numbers come from the scripts in [`../sql`](../sql) run against the Kaggle *
 ### Q5 · Powerplay start type
 
 Definitions:
+
 - **Strong:** 50+ runs and at most 1 wicket.
 - **Aggressive, risky:** 50+ runs and 2+ wickets.
 - **Slow, stable:** under 50 runs and at most 1 wicket.
@@ -129,6 +130,7 @@ Definitions:
 ### Q7 · Chase-friendly vs defend-friendly grounds
 
 Rules:
+
 - **Sample:** grounds with 20+ full matches (D/L excluded).
 - **Classification:** *Chase* if chase win % ≥ 55, *Bat first* if ≤ 45, otherwise *Neutral*.
 
@@ -199,6 +201,7 @@ Rules:
 | TA Boult | 41 | 45 | 8.13 | 20.4 | 44.0 | 11.92 | 4.00 |
 
 **Caveats:**
+
 - **Weights:** the impact weights are a modelling choice, kept from v1 and documented, not fitted.
 - **Sample size:** players with few innings (for example DP Conway, 22) carry more uncertainty than those with 40+.
 
