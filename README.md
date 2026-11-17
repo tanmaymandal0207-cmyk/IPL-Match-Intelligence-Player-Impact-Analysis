@@ -105,6 +105,7 @@ Every result is saved in [`results/`](results/) as CSV.
 Full tables and notes: **[`docs/findings.md`](docs/findings.md)**
 
 **1. Split batting first from chasing, or the death-overs story inverts.**
+
 - **Batting first:** winners score more at the death (54.9 vs 45.3).
 - **Chasing:** winners score *fewer* (34.0 vs 38.5), because a winning chase usually ends before over 20.
 
@@ -156,9 +157,11 @@ Definitions and business rules: [`docs/data-dictionary.md`](docs/data-dictionary
 1. **Download the data:** `matches.csv` and `deliveries.csv` from the Kaggle [IPL Complete Dataset (2008–2024)](https://www.kaggle.com/datasets/patrickb1912/ipl-complete-dataset-20082020). The data is not stored in this repo; see [`data/README.md`](data/README.md).
 2. **Point the loader at it:** replace `<DATA_DIR>` in `sql/01_load_data.sql` with the folder holding the two files.
 3. **Run everything from the repository root** (about 40 seconds):
+
    ```bash
    mysql --local-infile=1 -u root -p < sql/run_all.sql
    ```
+
    Or run the scripts one by one in MySQL Workbench.
 4. **Change the player window:** edit the single row in `ref_window` (seasons, minimum balls) and re-run `07` and `08`.
 5. **Rebuild the dashboard** (optional): `python dashboard/build_dashboard.py` reads the views and writes `dashboard/index.html`. Pass MySQL options with `MYSQL_ARGS`, for example `MYSQL_ARGS="-u root -p"`.
@@ -187,7 +190,7 @@ Details: [`docs/review-of-v1.md`](docs/review-of-v1.md)
 
 ## Repository structure
 
-```
+```text
 ├── README.md
 ├── CHANGELOG.md      # release and maintenance history
 ├── sql/
