@@ -18,7 +18,8 @@
 <a href="#findings">Findings</a> ·
 <a href="#data-model">Data model</a> ·
 <a href="#how-to-run">How to run</a> ·
-<a href="#what-changed-from-v1">Changes</a>
+<a href="#what-changed-from-v1">Changes</a> ·
+<a href="#related-projects">Related</a>
 </p>
 
 ---
