@@ -230,6 +230,8 @@ Release notes are in [CHANGELOG.md](CHANGELOG.md) (current release: v2.0, 9 Oct 
 - [Zomato Bangalore Analysis](https://github.com/tanmaymandal0207-cmyk/zomato-bangalore-sql-analysis): BigQuery profiling and restaurant-grain reconciliation
 - [Superstore Sales Analysis](https://github.com/tanmaymandal0207-cmyk/superstore-sales-analysis-sql-powerbi): MySQL cleaning pipeline modelled in Power BI
 
+<p align="right"><a href="#top">↑ Back to top</a></p>
+
 ---
 
 ## Author
