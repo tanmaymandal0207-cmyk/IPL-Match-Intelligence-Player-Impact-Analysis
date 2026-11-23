@@ -6,6 +6,7 @@
 
 - README: LinkedIn link in the Author section (21 Nov 2026).
 - README: Related projects added to the section navigation (22 Nov 2026).
+- README: back-to-top link above the Author section (23 Nov 2026).
 
 ## v2.0 — 9 Oct 2026
 
