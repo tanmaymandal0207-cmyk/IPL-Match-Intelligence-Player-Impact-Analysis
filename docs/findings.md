@@ -1,5 +1,7 @@
 # Findings
 
+[← Back to README](../README.md)
+
 All numbers come from the scripts in [`../sql`](../sql) run against the Kaggle *IPL Complete Dataset (2008–2024)*. CSV copies are in [`../results`](../results).
 
 **Base:** 1,076 decided matches (5 no-results and 14 ties excluded), regular innings only (super overs excluded).
