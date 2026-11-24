@@ -1,5 +1,7 @@
 # Data dictionary
 
+[← Back to README](../README.md)
+
 ## Raw tables (`00_create_schema.sql`)
 
 | Table | Grain | Key columns |
